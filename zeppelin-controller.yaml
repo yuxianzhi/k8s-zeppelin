@@ -1,0 +1,28 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: zeppelin-controller
+spec:
+  replicas: 1
+  selector:
+    component: zeppelin
+  template:
+    metadata:
+      labels:
+        component: zeppelin
+    spec:
+      containers:
+        - name: zeppelin
+          image: zeppelin 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8089
+          resources:
+            requests:
+              cpu: 100m
+          command:
+           - "/bin/bash"
+           - "-c"
+           - "--"
+          args :
+           - 'cd /opt/zeppelin && bin/zeppelin-daemon.sh start && sleep infinity'
